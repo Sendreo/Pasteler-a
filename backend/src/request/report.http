@@ -1,0 +1,24 @@
+# Obtener todos los reportes
+GET http://localhost:3000/api/get/report
+
+### Crear un reporte
+POST http://localhost:3000/api/add/report
+Content-Type: application/json
+
+{
+  "earnings": 1500.00,
+  "salesCount": 10,
+  "sales": ["id_de_venta"] // Cambiá "id_de_venta" por un ObjectId real
+}
+
+### Actualizar un reporte (cambiar ID por uno real)
+PUT http://localhost:3000/api/update/report/ID_DEL_REPORTE
+Content-Type: application/json
+
+{
+  "earnings": 2000.00,
+  "salesCount": 15
+}
+
+### Eliminar un reporte (cambiar ID por uno real)
+DELETE http://localhost:3000/api/delete/report/ID_DEL_REPORTE

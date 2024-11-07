@@ -1,0 +1,32 @@
+# Obtener todos los proveedores
+GET http://localhost:3000/api/get/suppliers
+
+### Crear un proveedor
+POST http://localhost:3000/api/add/supplier
+Content-Type: application/json
+
+{
+  "name": "Proveedor Test",
+  "address": "Calle Falsa 123",
+  "products": ["id_del_producto"],
+  "contacts": [{
+    "phoneNumber": "123456789",
+    "email": "contacto@proveedor.com",
+    "location": "Ciudad X",
+    "socialMedia": ["@proveedor"]
+  }],
+  "cost": 500,
+  "deliveryDate": "2024-11-10"
+}
+
+### Actualizar un proveedor (cambiar ID por uno real)
+PUT http://localhost:3000/api/update/supplier/ID_DEL_PROVEEDOR
+Content-Type: application/json
+
+{
+  "address": "Calle Actualizada 456",
+  "cost": 550
+}
+
+### Eliminar un proveedor (cambiar ID por uno real)
+DELETE http://localhost:3000/api/delete/supplier/ID_DEL_PROVEEDOR

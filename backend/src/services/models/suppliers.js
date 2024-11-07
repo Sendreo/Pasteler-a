@@ -1,21 +1,19 @@
-import {mongoose, Schema} from 'mongoose';
+import mongoose, { Schema } from 'mongoose';
 
-const contactInfo = new Schema({
-    numberPhone: { type: String },
+const contactInfoSchema = new Schema({
+    phoneNumber: { type: String },
     email: { type: String, match: /.+\@.+\..+/ },
     location: { type: String },
-    socialMedia: { type: String }
+    socialMedia: [{ type: String }] 
 });
 
-
 const suppliersSchema = new Schema({
-    nameSupplier:{type:String, required:true},
-    adressSupplier: {type:String, required:true},
-    products: {type:String},
-    contacts: [contactInfo],
-    cost: {type:Number},
-    deliveryDate: {type:Date} 
+    name: { type: String, required: true },
+    address: { type: String, required: true },
+    products: [{ type: Schema.ObjectId, ref: 'Products' }], 
+    contacts: [contactInfoSchema],
+    cost: { type: Number },
+    deliveryDate: { type: Date }
 });
 
 export const Suppliers = mongoose.model('Suppliers', suppliersSchema);
-

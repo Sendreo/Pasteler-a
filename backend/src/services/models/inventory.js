@@ -1,9 +1,9 @@
-import {mongoose, Schema} from 'mongoose';
+import mongoose, { Schema } from 'mongoose';
 
 const inventorySchema = new Schema({
-    nameInventory: {type:String, required:true},
-    quantityInventory:{type:Number, required:true},
-    idSuppliers: {type:Schema.ObjectId, ref: 'Suppliers', required:true}
+    name: { type: String, required: true },
+    quantity: { type: Number, required: true },
+    suppliers: [{ type: Schema.ObjectId, ref: 'Suppliers' }] // Permite múltiples proveedores
 });
 
-export const Inventory = mongoose.model('Inventory', inventorySchema); 
+export const Inventory = mongoose.model('Inventory', inventorySchema);

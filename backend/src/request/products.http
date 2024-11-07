@@ -1,0 +1,31 @@
+# Crear un producto
+POST http://localhost:3000/api/add/products
+Content-Type: application/json
+
+{
+  "name": "Torta de dulce de leche",
+  "category": "Torta",
+  "stock": 10,
+  "price": 9999.99,
+  "description": "Descripción de prueba",
+  "labels": ["dulce de leche", "alfajor"],
+  "image": "https://www.instagram.com/p/DB6-ClIJbGG/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA=="
+}
+
+### Actualizar un producto (cambiar ID por uno real)
+PUT http://localhost:3000/api/update/product/672d063281ed09d9bc99ef0c
+Content-Type: application/json
+
+{
+  "name": "torta de chocolate",
+  "price": 8000
+}
+
+### Eliminar un producto (cambiar ID por uno real)
+DELETE http://localhost:3000/api/delete/product/672d066381ed09d9bc99ef10
+
+
+### Obtener productos
+
+GET http://localhost:3000/api/get/products
+

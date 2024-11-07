@@ -1,0 +1,26 @@
+# Obtener todas las ventas
+GET http://localhost:3000/api/get/sales
+
+### Crear una venta
+POST http://localhost:3000/api/add/sales
+Content-Type: application/json
+
+{
+  "dateTime": "2024-11-05T10:00:00Z",
+  "paymentMethod": "Tarjeta",
+  "quantity": 2,
+  "total": 399.98,
+  "product": "id_del_producto" // Cambiá "id_del_producto" por un ObjectId real
+}
+
+### Actualizar una venta (cambiar ID por uno real)
+PUT http://localhost:3000/api/update/sale/ID_DE_LA_VENTA
+Content-Type: application/json
+
+{
+  "paymentMethod": "Efectivo",
+  "total": 349.99
+}
+
+### Eliminar una venta (cambiar ID por uno real)
+DELETE http://localhost:3000/api/delete/sale/

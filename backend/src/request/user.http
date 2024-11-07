@@ -1,0 +1,32 @@
+# Registrar un usuario
+POST http://localhost:3000/api/register
+Content-Type: application/json
+
+{
+  "name": "NombreUsuario",
+  "surname": "ApellidoUsuario",
+  "username": "usuario123",
+  "email": "usuario@correo.com",
+  "password": "passwordSeguro123"
+}
+
+### Iniciar sesión
+POST http://localhost:3000/api/login
+Content-Type: application/json
+
+{
+  "username": "usuario123",
+  "password": "passwordSeguro123"
+}
+
+### Actualizar un usuario (cambiar ID por uno real)
+PUT http://localhost:3000/api/update/user/ID_DEL_USUARIO
+Content-Type: application/json
+
+{
+  "name": "NombreActualizado",
+  "surname": "ApellidoActualizado"
+}
+
+### Eliminar un usuario (cambiar ID por uno real)
+DELETE http://localhost:3000/api/delete/user/ID_DEL_USUARIO
