@@ -6,10 +6,13 @@ import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 
+
 export default function Products({products}) {
   const {nombre, descripcion,imagen, } = products
   return (
-    <Card sx={{ maxWidth: 345 }}>
+    <Card sx={{ maxWidth: 350
+      
+     }}>
       <CardMedia
         component="img"
         alt="green iguana"
@@ -31,3 +34,4 @@ export default function Products({products}) {
     </Card>
   );
 }
+  
