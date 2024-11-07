@@ -9,6 +9,7 @@ import IconButton from '@mui/material/IconButton';
 import InputBase from '@mui/material/InputBase';
 import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
+import '../styles/search.css'
 
 
 const Search = styled('div')(({ theme }) => ({
@@ -65,7 +66,7 @@ export default function SearchAppBar({ searchTerm, setSearchTerm }) {
           </IconButton>
           
           {/* Logo */}
-          <img src="/logo.png" alt="Logo" style={{ width: '40px', height: '40px', marginRight: '10px' }} />
+          <img src="src/assets/logo-header.png" alt="Logo" style={{ width: '70px', height: '60px', marginRight: '5px' }} />
           
        
           

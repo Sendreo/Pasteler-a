@@ -3,7 +3,7 @@ import Products from '../components/Products';
 import data from '../services/data.json';
 import SearchAppBar from '../components/SearchAppBar';
 import Box from '@mui/material/Box';
-import '../styles/style-product.css';
+
 
 const Home = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -22,7 +22,7 @@ const Home = () => {
         sx={{ 
           display: 'flex', 
           flexWrap: 'wrap', 
-          gap: 2, 
+          gap: 3.5, 
           justifyContent: 'center', 
           padding: '20px' 
         }}
