@@ -10,9 +10,7 @@ import Typography from '@mui/material/Typography';
 export default function Products({products}) {
   const {nombre, descripcion,imagen, } = products
   return (
-    <Card sx={{ maxWidth: 350
-      
-     }}>
+    <Card sx={{ maxWidth: 350}}>
       <CardMedia
         component="img"
         alt="green iguana"
