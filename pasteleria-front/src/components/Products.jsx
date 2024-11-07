@@ -1,21 +1,37 @@
-import { Card } from "flowbite-react"
+import * as React from 'react';
+import Card from '@mui/material/Card';
+import CardActions from '@mui/material/CardActions';
+import CardContent from '@mui/material/CardContent';
+import CardMedia from '@mui/material/CardMedia';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
 
 
-const Products = ({products}) => {
-    const {nombre, descripcion, imagen} = products
+export default function Products({products}) {
+  const {nombre, descripcion,imagen, } = products
   return (
-    <>
-  <Card href="#" className="max-w-sm">
-      <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-        {nombre}
-      </h5>
-      <p className="font-normal text-gray-700 dark:text-gray-400">
-        {descripcion}
-      </p><br />
-      <p>{imagen}</p>
+    <Card sx={{ maxWidth: 350
+      
+     }}>
+      <CardMedia
+        component="img"
+        alt="green iguana"
+        height="140"
+        image="../public/vite.svg"
+      />
+      <CardContent>
+        <Typography gutterBottom variant="h5" component="div">
+          {nombre}
+        </Typography>
+        <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+          {descripcion}
+        </Typography>
+      </CardContent>
+      <CardActions>
+        <Button size="small">Comprar</Button>
+        <Button size="small">Agregar al carrito</Button>
+      </CardActions>
     </Card>
-    </>
-  )
+  );
 }
-
-export default Products
+  
