@@ -1,15 +1,28 @@
-import React, { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Products from '../components/Products';
-import data from '../services/data.json';
+import { getProducts } from '../api/methods/products.api.js';
 import SearchAppBar from '../components/SearchAppBar';
 import Box from '@mui/material/Box';
 
-
 const Home = () => {
   const [searchTerm, setSearchTerm] = useState('');
+  const [products, setProducts] = useState([]);
 
-  const filteredData = data.filter((d) =>
-    d.nombre.toLowerCase().includes(searchTerm.toLowerCase())
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const data = await getProducts();
+        setProducts(data);
+      } catch (error) {
+        console.error('Error al obtener productos:', error);
+      }
+    };
+
+    fetchProducts();
+  }, []);
+
+  const filteredData = products.filter((d) =>
+    d.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   return (
@@ -28,7 +41,7 @@ const Home = () => {
         }}
       >
         {filteredData.map((d) => (
-          <Products key={d.id} products={d} />
+          <Products key={d._id} products={d} />
         ))}
       </Box>
     </>

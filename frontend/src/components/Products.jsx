@@ -6,30 +6,50 @@ import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 
-
-export default function Products({products}) {
-  const {nombre, descripcion,imagen, } = products
+export default function Products({ products }) {
+  const { name, description, image } = products;
+  
   return (
-    <Card sx={{ maxWidth: 350}}>
+    <Card sx={{ maxWidth: 350 }}>
       <CardMedia
         component="img"
-        alt="green iguana"
+        alt="Producto"
         height="140"
-        image="../public/vite.svg"
+        image={image}
       />
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">
-          {nombre}
+          {name}
         </Typography>
         <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-          {descripcion}
+          {description}
         </Typography>
       </CardContent>
       <CardActions>
-        <Button size="small">Comprar</Button>
-        <Button size="small">Agregar al carrito</Button>
+        {/* Botón Comprar en azul */}
+        <Button
+          size="small"
+          sx={{
+            color: 'white',
+            backgroundColor: '#1976d2', // Azul
+            '&:hover': { backgroundColor: '#115293' }, // Azul oscuro en hover
+          }}
+        >
+          Comprar
+        </Button>
+
+        {/* Botón Agregar al carrito en verde */}
+        <Button
+          size="small"
+          sx={{
+            color: 'white',
+            backgroundColor: '#388e3c', // Verde
+            '&:hover': { backgroundColor: '#2e7d32' }, // Verde oscuro en hover
+          }}
+        >
+          Agregar al carrito
+        </Button>
       </CardActions>
     </Card>
   );
 }
-  
