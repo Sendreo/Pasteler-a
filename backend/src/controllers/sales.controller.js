@@ -1,5 +1,5 @@
 import {SalesClass} from '../services/methods/sales.class.js';
-
+import {Product} from '../services/methods/products.class.js';
 
 const getSales = async (req,res)=>{
     try {
@@ -58,9 +58,130 @@ const deleteSale = async(req,res)=>{
     }
 }
 
+const monthlySales = async (req,res)=>{
+    try{
+        const monthlyEarnings = await Sales.aggregate([
+            {
+                $group: {
+                    _id: { $dateToString: { format: '%Y-%m', date: '$dateTime' } },
+                    totalEarnings: { $sum: '$total' },
+                    salesCount: { $sum: 1 }
+                }
+            },
+            { $sort: { _id: 1 } } 
+        ]);
+        if(!monthlyEarnings){
+            res.status(404).json({message:'Datos insuficientes para el Dashboard'})
+        }
+        res.status(200).json(monthlyEarnings)
+    }
+    catch(error){
+        res.status(500).json({message: "Error interno del servidor: " + error})
+    }
+}
+
+const weeklySales = async(req,res)=>{
+    try {
+        const weeklyEarnings = await Sales.aggregate([
+            {
+                $group: {
+                    _id: {
+                        week: { $isoWeek: '$dateTime' },
+                        year: { $year: '$dateTime' }
+                    },
+                    totalEarnings: { $sum: '$total' },
+                    salesCount: { $sum: 1 }
+                }
+            },
+            { $sort: { '_id.year': 1, '_id.week': 1 } } // Orden por año y semana
+        ]);
+        if(!weeklyEarnings){
+            res.status(404).json({message:'No hay datos suficientes para construir el Dashboard'})
+            return;
+        }
+        res.status(200).json(weeklyEarnings)
+    } catch (error) {
+        res.status(500).json({message:'Errror interno del servidor'})
+    }
+}
+
+const mostSalesProducts = async(req,res)=>{
+    try {
+        const topProducts = await Sales.aggregate([
+            {
+                $group: {
+                    _id: '$product',
+                    totalSold: { $sum: '$quantity' },
+                    totalEarnings: { $sum: '$total' }
+                }
+            },
+            { $sort: { totalSold: -1 } }, 
+            { $limit: 10 } 
+        ]).then(async (topProducts) => {
+            return await Promise.all(
+                topProducts.map(async (product) => {
+                    const productInfo = await Product.findById(product._id).lean();
+                    return { ...product, ...productInfo };
+                })
+            );
+        });
+        if(!topProducts){
+            res.status(404).json({message:'Sin datos de productos vendidos'});
+            return;
+        }
+        res.status(200).json(topProducts);
+    } catch (error) {
+        res.status(500).json({message:'Error interno de servidor: ' + error})
+    }
+}
+
+const salesTrends = async (req, res) => {
+    try {
+        const trends = await Sales.aggregate([
+            {
+                $group: {
+                    _id: { $dateToString: { format: '%Y-%m-%d', date: '$dateTime' } },
+                    dailyEarnings: { $sum: '$total' },
+                    dailySales: { $sum: 1 }
+                }
+            },
+            { $sort: { _id: 1 } } 
+        ]);
+        if (trends.length === 0) {
+            res.status(404).json({ message: 'No hay datos para mostrar tendencias.' });
+            return;
+        }
+        res.status(200).json(trends);
+    } catch (error) {
+        res.status(500).json({ message: 'Error interno de servidor: ' + error });
+    }
+};
+
+const paymentMethods = async (req, res) => {
+    try {
+        const methods = await Sales.aggregate([
+            {
+                $group: {
+                    _id: '$paymentMethod',
+                    total: { $sum: 1 }
+                }
+            }
+        ]);
+        res.status(200).json(methods);
+    } catch (error) {
+        res.status(500).json({ message: 'Error interno de servidor: ' + error });
+    }
+};
+
+
 export {
     getSales,
     addSales,
     updateSale,
-    deleteSale
+    deleteSale,
+    monthlySales,
+    weeklySales,
+    mostSalesProducts,
+    salesTrends,
+    paymentMethods
 }

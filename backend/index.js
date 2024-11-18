@@ -6,6 +6,7 @@ import routeUser from './src/routes/route.user.js';
 import routeSales from './src/routes/route.sales.js';
 import routeReport from './src/routes/route.report.js';
 import routeProducts from './src/routes/route.products.js';
+import routeDashboard from './src/routes/route.dashboard.js';
 import cors from 'cors';
 import morgan from 'morgan'
 
@@ -27,6 +28,7 @@ const startServer = async ()=>{
     app.use('/api', routeUser);
     app.use('/api', routeReport);
     app.use('/api', routeProducts);
+    app.use('/api', routeDashboard);
 
     //Manejo de errores global
     app.use((err, req, res, next) => {

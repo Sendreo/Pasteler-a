@@ -1,6 +1,29 @@
 # IMPORTANTE
 Aqui voy a colocar todas las tareas que va tener que hacer cada uno. Adjunto un Backend realizado previamente donde se pueden guiar: https://github.com/PrietoMatias/Agenda-Scrum
 
+
+## Desarrollo de endpoints del dashboard
+- Explicación: Se debe desarrollar las rutas que referencien a los controladores para poder hacer las peticiones http correspondientes.
+- **Asignado a**: Vaca Andrés [Hecho]
+
+
+## Desarrollo de controladores [Margen Promedio, Stock Bajo, Distribución de Categoría, Proveedores más comprados]
+- Explicación: Se debe desarrollar esos controladores para saber el margen promedio de productos, saber si el stock está bajo, saber las distrubución de los productos por categoría, y saber los proveedores más comprados.
+- **Asignado a**: Prieto Matías [Hecho]
+
+
+## Desarrollo de controladores [Tendencias de Ventas, Métodos de Pago, Promedio de Productos]
+- Explicación: Se debe desarollar los controladores ya mencionados para traer la tendencias de las ventas, los distintos métodos de pago que se usan en las ventas diarias, y el promeido de precios en los productos
+- **Asignado a**: Urbani Juan Pablo [Hecho]
+
+## Desarrollo de controladores [Ventas Mensuales, Ventas Semanales, Productos más Vendidos]
+- Explicación: Se debe de hacer el análisis de datos para traer las correspondientes datos para la visualización en el dashboard.
+- **Asignado a**: Terrera Augusto [Hecho]
+
+## Desarrollo de las bases del dashboard
+- Explicación: Se debe empezar la construcción del dashboard en los controladores correspondientes.
+- **Asignado a**: Prieto Matías [Hecho]
+
 ## Desarollo de métodos de servicios.
 - Explicación: Dentro de la carpeta *services* tenemos la carpeta *methods* En esta carpeta tiene que ir las clases estáticas de cada uno de los modelos de la base de datos.
 - **Asginado a**: Terrera Augusto. [Hecho]

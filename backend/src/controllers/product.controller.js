@@ -57,10 +57,85 @@ const deleteProduct = async(req,res)=>{
     }
 }
 
+const avgProduct = async(req,res)=>{
+    try {
+        const avgPrice = await Product.aggregate([
+            {
+                $group: {
+                    _id: null,
+                    averagePrice: { $avg: '$price' }
+                }
+            }
+        ]);
+        if(!avgPrice){
+            res.status(404).json({message:'No se puede sacar el promedio de productos'});
+            return;
+        }
+        res.status(200).json({avgPrice: avgPrice[0]?.averagePrice || 0});
+    } catch (error) {
+        res.status(500).json({message:'Error interno de servidor: ' + error});
+    }
+}
+
+const avgMargin = async(req,res)=>{
+    try {
+        const avgMargin = await Product.aggregate([
+            {
+                $group: {
+                    _id: null,
+                    averageMargin: { $avg: { $subtract: ['$price', { $ifNull: ['$cost', 0] }] } }
+                }
+            }
+        ]);
+        if(!avgMargin){
+            res.status(404).json({message:'Sin datos para sacar margen promedio'});
+            return;
+        }
+        res.status(200).json({avgMargin: avgMargin[0]?.averageMargin || 0});
+    } catch (error) {
+        res.status(500).json({message:'Error interno de servidor: ' + error});
+    }
+}
+
+const lowStockProducts = async (req, res) => {
+    try {
+        const lowStock = await Product.find({ stock: { $lt: 10 } }); // Umbral configurable
+        if (lowStock.length === 0) {
+            res.status(404).json({ message: 'No hay productos con stock bajo.' });
+            return;
+        }
+        res.status(200).json(lowStock);
+    } catch (error) {
+        res.status(500).json({ message: 'Error interno de servidor: ' + error });
+    }
+};
+
+const categoryDistribution = async (req, res) => {
+    try {
+        const categories = await Product.aggregate([
+            {
+                $group: {
+                    _id: '$category',
+                    count: { $sum: 1 }
+                }
+            },
+            { $sort: { count: -1 } }
+        ]);
+        res.status(200).json(categories);
+    } catch (error) {
+        res.status(500).json({ message: 'Error interno de servidor: ' + error });
+    }
+};
+
+
 
 export {
     getProducts,
     updateProduct,
     addProduct,
-    deleteProduct
+    deleteProduct,
+    avgProduct,
+    avgMargin,
+    lowStockProducts,
+    categoryDistribution
 }
