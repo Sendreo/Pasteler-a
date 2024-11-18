@@ -1,6 +1,11 @@
 # IMPORTATE 
 Aquí irán las tareas, puestas de manera global. Se usará la misma api, pero *crud* será para el ABM de los productos. Se deberá crear y tener un *data.json* para testear el ABM hasta que se conecte a base de datos.
 
+## Desarrollar las rutas y diseñar la vista del dashboard
+- Realizar la ruta que navegará y renderizará el dashboard.
+- **Asignado a**: Prieto Matías
+
+
 ## Desarrollar el filtro de búsqueda [Catalogo]
 - Realizar el filtro de búsqueda (se filtrará por etiquetas) 
 - **Asignando a**: Juan Pablo Urbiani.
