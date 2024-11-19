@@ -59,16 +59,7 @@ const deleteSuppliers = async(req,res)=>{
 
 const topSuppliers = async (req, res) => {
     try {
-        const suppliers = await SuppliersClass.aggregate([
-            {
-                $project: {
-                    name: 1,
-                    productsCount: { $size: '$products' }
-                }
-            },
-            { $sort: { productsCount: -1 } },
-            { $limit: 5 }
-        ]);
+        const suppliers = await SuppliersClass.topSuppliers()
         if (suppliers.length === 0) {
             res.status(404).json({ message: 'No hay proveedores registrados.' });
             return;

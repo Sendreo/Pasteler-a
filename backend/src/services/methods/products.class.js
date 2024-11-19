@@ -16,4 +16,38 @@ export class Product{
     static async allProducts(){
         return Products.find();
     }
+    static async avgProduct(){
+        return Products.aggregate([
+            {
+                $group: {
+                    _id: null,
+                    averagePrice: { $avg: '$price' }
+                }
+            }
+        ]);
+    }
+    static async avgMargin(){
+        return Products.aggregate([
+            {
+                $group: {
+                    _id: null,
+                    averageMargin: { $avg: { $subtract: ['$price', { $ifNull: ['$cost', 0] }] } }
+                }
+            }
+        ]);
+    }
+    static async lowProduct(){
+        return Products.find({ stock: { $lt: 10 } });
+    }
+    static async categoryDistribution(){
+        return Products.aggregate([
+            {
+                $group: {
+                    _id: '$category',
+                    count: { $sum: 1 }
+                }
+            },
+            { $sort: { count: -1 } }
+        ]);
+    }
 }

@@ -1,5 +1,5 @@
 import {Sales} from '../models/Sales.js';
-
+import {Products} from '../models/products.js'
 
 export class SalesClass {
     static async addSale(data){
@@ -15,5 +15,74 @@ export class SalesClass {
     }
     static async deleteSales(id){
         return Sales.findByIdAndDelete(id);
+    }
+    static async monthlySales(){
+        return Sales.aggregate([
+            {
+                $group: {
+                    _id: { $dateToString: { format: '%Y-%m', date: '$dateTime' } },
+                    totalEarnings: { $sum: '$total' },
+                    salesCount: { $sum: 1 }
+                }
+            },
+            { $sort: { _id: 1 } } 
+        ]);
+    }
+    static async weeklySales(){
+        return Sales.aggregate([
+            {
+                $group: {
+                    _id: {
+                        week: { $isoWeek: '$dateTime' },
+                        year: { $year: '$dateTime' }
+                    },
+                    totalEarnings: { $sum: '$total' },
+                    salesCount: { $sum: 1 }
+                }
+            },
+            { $sort: { '_id.year': 1, '_id.week': 1 } } 
+        ]);
+    }
+    static async mostSalesProducts(){
+        return Sales.aggregate([
+            {
+                $group: {
+                    _id: '$product',
+                    totalSold: { $sum: '$quantity' },
+                    totalEarnings: { $sum: '$total' }
+                }
+            },
+            { $sort: { totalSold: -1 } }, 
+            { $limit: 10 } 
+        ]).then(async (topProducts) => {
+            return await Promise.all(
+                topProducts.map(async (product) => {
+                    const productInfo = await Products.findById(product._id).lean();
+                    return { ...product, ...productInfo };
+                })
+            );
+        });
+    }
+    static async salesTrends(){
+        return Sales.aggregate([
+            {
+                $group: {
+                    _id: { $dateToString: { format: '%Y-%m-%d', date: '$dateTime' } },
+                    dailyEarnings: { $sum: '$total' },
+                    dailySales: { $sum: 1 }
+                }
+            },
+            { $sort: { _id: 1 } } 
+        ]);
+    }
+    static async paymentMethods(){
+        return Sales.aggregate([
+            {
+                $group: {
+                    _id: '$paymentMethod',
+                    total: { $sum: 1 }
+                }
+            }
+        ]);
     }
 }

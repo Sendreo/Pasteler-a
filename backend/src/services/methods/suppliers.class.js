@@ -15,4 +15,16 @@ export class SuppliersClass {
     static async deleteSuppliers(id){
         return Suppliers.findByIdAndDelete(id);
     }
+    static async topSuppliers(){
+        return Suppliers.aggregate([
+            {
+                $project: {
+                    name: 1, 
+                    productsCount: { $size: '$products' }
+                }
+            },
+            { $sort: { productsCount: -1 } },
+            { $limit: 5 }
+        ]);
+    }
 }

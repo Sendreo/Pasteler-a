@@ -1,9 +1,9 @@
-import {Route} from 'express';
+import {Router} from 'express';
 import {topSuppliers} from '../controllers/supplier.controller.js';
 import { avgProduct,avgMargin,lowStockProducts,categoryDistribution} from '../controllers/product.controller.js';
 import {monthlySales,weeklySales,mostSalesProducts,salesTrends,paymentMethods} from '../controllers/sales.controller.js';
 
-const router = Route(); 
+const router = Router(); 
 
 router.get('/dashboard/monthlysales', monthlySales);
 router.get('/dashboard/weeklysales', weeklySales);

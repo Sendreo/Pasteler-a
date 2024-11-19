@@ -59,14 +59,7 @@ const deleteProduct = async(req,res)=>{
 
 const avgProduct = async(req,res)=>{
     try {
-        const avgPrice = await Product.aggregate([
-            {
-                $group: {
-                    _id: null,
-                    averagePrice: { $avg: '$price' }
-                }
-            }
-        ]);
+        const avgPrice = await Product.avgProduct();
         if(!avgPrice){
             res.status(404).json({message:'No se puede sacar el promedio de productos'});
             return;
@@ -79,14 +72,7 @@ const avgProduct = async(req,res)=>{
 
 const avgMargin = async(req,res)=>{
     try {
-        const avgMargin = await Product.aggregate([
-            {
-                $group: {
-                    _id: null,
-                    averageMargin: { $avg: { $subtract: ['$price', { $ifNull: ['$cost', 0] }] } }
-                }
-            }
-        ]);
+        const avgMargin = await Product.avgMargin();
         if(!avgMargin){
             res.status(404).json({message:'Sin datos para sacar margen promedio'});
             return;
@@ -99,7 +85,7 @@ const avgMargin = async(req,res)=>{
 
 const lowStockProducts = async (req, res) => {
     try {
-        const lowStock = await Product.find({ stock: { $lt: 10 } }); // Umbral configurable
+        const lowStock = await Product.lowProduct(); 
         if (lowStock.length === 0) {
             res.status(404).json({ message: 'No hay productos con stock bajo.' });
             return;
@@ -112,21 +98,13 @@ const lowStockProducts = async (req, res) => {
 
 const categoryDistribution = async (req, res) => {
     try {
-        const categories = await Product.aggregate([
-            {
-                $group: {
-                    _id: '$category',
-                    count: { $sum: 1 }
-                }
-            },
-            { $sort: { count: -1 } }
-        ]);
+        const categories = await Product.categoryDistribution();
         res.status(200).json(categories);
     } catch (error) {
         res.status(500).json({ message: 'Error interno de servidor: ' + error });
     }
 };
-
+ 
 
 
 export {
