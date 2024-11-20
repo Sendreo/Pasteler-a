@@ -1,26 +1,29 @@
 import { useState, useEffect } from 'react';
-import { getMarginProduct } from '../services/methods/dashboard.js';
+import { getMarginProduct } from '../services/methods/dashboard';
 
 const AverageMargin = () => {
-    const [avgMargin, setAvgMargin] = useState(null);
+  const [avgMargin, setAvgMargin] = useState(null);
 
-    useEffect(() => {
-        const fetchAvgMargin = async () => {
-            const data = await getMarginProduct();
-            setAvgMargin(data?.avgMargin || 0);
-        };
+  useEffect(() => {
+    const fetchAvgMargin = async () => {
+      try {
+        const data = await getMarginProduct();
+        setAvgMargin(data?.avgMargin || 0);
+      } catch (error) {
+        console.error('Error fetching average margin:', error);
+      }
+    };
 
-        fetchAvgMargin();
-    }, []);
+    fetchAvgMargin();
+  }, []);
 
-    if (avgMargin === null) return <h1>Cargando...</h1>;
+  if (avgMargin === null) return <h1>Cargando...</h1>;
 
-    return (
-        <div>
-            <h2>Margen Promedio</h2>
-            <p>{avgMargin.toFixed(2)} USD</p>
-        </div>
-    );
+  return (
+    <div>
+      <p>{avgMargin.toFixed(2)} USD</p>
+    </div>
+  );
 };
 
 export default AverageMargin;

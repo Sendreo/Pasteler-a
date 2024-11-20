@@ -47,22 +47,39 @@ export class SalesClass {
         return Sales.aggregate([
             {
                 $group: {
-                    _id: '$product',
-                    totalSold: { $sum: '$quantity' },
-                    totalEarnings: { $sum: '$total' }
+                    _id: '$product', 
+                    totalSold: { $sum: '$quantity' },  
+                    totalEarnings: { $sum: '$total' } 
                 }
             },
-            { $sort: { totalSold: -1 } }, 
-            { $limit: 10 } 
+            { $sort: { totalSold: -1 } },  
+            { $limit: 10 }  
         ]).then(async (topProducts) => {
             return await Promise.all(
                 topProducts.map(async (product) => {
-                    const productInfo = await Products.findById(product._id).lean();
-                    return { ...product, ...productInfo };
+                    if (product._id === null) {
+                        return { ...product, name: "Producto no disponible" };  
+                    }
+                    try {
+                        const productInfo = await Products.findById(product._id).lean();
+                        if (!productInfo) {
+                            return { ...product, name: "Producto no encontrado" };
+                        }
+                        return { 
+                            ...product, 
+                            name: productInfo.name, 
+                            ...productInfo  
+                        };
+                    } catch (error) {
+                        console.error("Error al obtener la información del producto: ", error);
+                        return { ...product, name: "Error al obtener nombre" };  
+                    }
                 })
             );
         });
     }
+    
+    
     static async salesTrends(){
         return Sales.aggregate([
             {
