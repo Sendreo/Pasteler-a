@@ -8,16 +8,17 @@ Content-Type: application/json
 {
   "name": "Producto Inventariado",
   "quantity": 100,
-  "suppliers": ["id_del_proveedor"]  // Cambiá "id_del_proveedor" por un ObjectId de verdad
+  "suppliers": "673bd67049515b11bdb2fdd1"
 }
 
 ### Actualizar un inventario (cambiar ID por uno real)
-PUT http://localhost:3000/api/update/inventory/ID_DEL_INVENTARIO
+PUT http://localhost:3000/api/update/inventory/673bd66f49515b11bdb2fdcc
 Content-Type: application/json
 
 {
   "name": "Inventario Actualizado",
-  "quantity": 150
+  "quantity": 150,
+  "suppliers": "673bd67049515b11bdb2fdd1"
 }
 
 ### Eliminar un inventario (cambiar ID por uno real)

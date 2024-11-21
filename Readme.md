@@ -3,7 +3,7 @@ Aquí irán las tareas, puestas de manera global. Se usará la misma api, pero *
 
 ## Desarrollar las rutas y diseñar la vista del dashboard
 - Realizar la ruta que navegará y renderizará el dashboard.
-- **Asignado a**: Prieto Matías
+- **Asignado a**: Prieto Matías [Hecho]
 
 
 ## Desarrollar el filtro de búsqueda [Catalogo]
@@ -18,15 +18,15 @@ Aquí irán las tareas, puestas de manera global. Se usará la misma api, pero *
 
 # Desarrollar la vista de el stock. [Crud]
 - Realizar el mapeo de los productos en *crud* con formato de lista (sin mostrar imágenes). Como si fuera un lista de productos, mostrando solo información escencial (nombre, stock, precio)
-- **Asignando a**: Terrera Augusto.
+- **Asignando a**: Terrera Augusto. [Hecho]
 - **Tiempo**: 13/11/2024
 
 # Desarrollar el despliegue de productos [Crud]
 - Realizar un "despliegue" en formato tarjeta de los productos, ya sea para modificar cantidad, fotos, precio o eliminar.
-- **Asignado a**: Urbani Juan Pablo.
+- **Asignado a**: Urbani Juan Pablo. [Hecho]
 - **Tiempo**: 15/11/2024
 
 # Desarrollo de la integración a la Api [Crud]
 - Conectar la api al *crud* para mostrar los productos desde la base de datos.
-- **Asignado a**: Prieto Matías.
+- **Asignado a**: Prieto Matías. [Hecho]
 - **Tiempo**: 16/11/2024
