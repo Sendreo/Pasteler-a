@@ -5,9 +5,14 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
+import { addProduct } from '../api/methods/products.api';
 
-export default function Products({ products }) {
+export default function Products({ products, addToCart }) {
   const { name, description, image } = products;
+
+  const handleAddToCart = () => {
+    addToCart(products); // Agrega el producto al carrito
+  };
   
   return (
     <Card sx={{ maxWidth: 350 }}>
@@ -50,6 +55,7 @@ export default function Products({ products }) {
             backgroundColor: '#388e3c', // Verde
             '&:hover': { backgroundColor: '#2e7d32' }, // Verde oscuro en hover
           }}
+          onClick={handleAddToCart}
         >
           Agregar al carrito
         </Button>
