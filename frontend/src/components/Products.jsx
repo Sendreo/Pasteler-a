@@ -14,7 +14,11 @@ export default function Products({ products }) {
       <CardMedia
         component="img"
         alt="Producto"
-        height="140"
+        sx={{
+          width: '100%', // Ocupa todo el ancho del contenedor
+          height: '200px', // Mantiene una altura fija
+          objectFit: 'contain', // Asegura que la imagen se vea completa
+        }}
         image={image}
       />
       <CardContent>
