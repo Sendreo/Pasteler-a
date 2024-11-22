@@ -7,7 +7,7 @@ export class InventoryClass {
         return newInventory;
     }
     static async allInventorys(){
-        return Inventory.find();
+        return Inventory.find().populate('suppliers', 'name');
     }
     static async updateInventory(id, data){
         return Inventory.findByIdAndUpdate(id, data, {new:true});

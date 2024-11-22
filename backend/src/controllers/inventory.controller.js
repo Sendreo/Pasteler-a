@@ -18,6 +18,7 @@ const updateInventory = async(req,res)=>{
     try {
         const data = req.body;
         const id = req.params.id;
+        console.log(data)
         const updateInventory = await InventoryClass.updateInventory(id,data)
         if(!updateInventory){
             res.status(404).json({message:'Error al actualizar inventario'});
