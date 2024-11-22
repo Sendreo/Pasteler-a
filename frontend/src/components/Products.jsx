@@ -13,7 +13,6 @@ export default function Products({ products, addToCart }) {
   const handleAddToCart = () => {
     addToCart(products); // Agrega el producto al carrito
   };
-  
   return (
     <Card sx={{ maxWidth: 350 }}>
       <CardMedia
