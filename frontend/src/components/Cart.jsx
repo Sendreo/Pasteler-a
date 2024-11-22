@@ -1,12 +1,78 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import Button from '@mui/material/Button';
-import '../styles/table-cart.css'
+import CircularProgress from '@mui/material/CircularProgress';
+import Swal from 'sweetalert2'
+import '../styles/table-cart.css';
 
 export default function Cart({ cart, openCart, toggleCartDialog, updateQuantity, removeFromCart }) {
+  const [loading, setLoading] = useState(false);  // Estado para manejar el loading
+
+  const handleCreatePreference = async () => {
+    setLoading(true);  // Activamos el loading al hacer clic en Pagar
+
+    try {
+      const items = cart.map((product) => ({
+        id: product._id,
+        currency_id: "ARS",
+        title: product.name,
+        quantity: product.quantity,
+        unit_price: product.price,
+      }));
+
+      const response = await fetch("http://localhost:3000/mercadopago/create_preference", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ items }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Error al crear la preferencia");
+      }
+
+      const data = await response.json();
+
+      console.log("URL recibida:", data.init_point);
+
+      // Cerrar el modal antes de mostrar la alerta
+      toggleCartDialog();
+
+      // Muestra la alerta y redirige a Mercado Pago
+      setTimeout(() => {
+        Swal.fire({
+          icon: 'info',
+          title: 'Redireccion a Mercado Pago',
+          text: 'Esta seguro que quiere continuar?',
+          showCancelButton: true,
+          confirmButtonText: 'OK',
+          cancelButtonText: 'Cancelar'
+        }).then((result) => {
+          if (result.isConfirmed) {
+            // Acción cuando el usuario hace clic en "OK"
+            window.location.href = data.init_point;
+            console.log('Acción confirmada');
+          } else {
+            // Acción cuando el usuario hace clic en "Cancelar"
+            console.log('Acción cancelada');
+            return
+          }
+        });
+      }, 200); // Espera 100ms antes de mostrar la alerta
+
+
+    } catch (error) {
+      console.error("Error:", error.message);
+      alert("Hubo un error al crear la preferencia");
+    } finally {
+      setLoading(false);  // Desactivamos el loading cuando finaliza la petición
+    }
+  };
+
   return (
     <Dialog open={openCart} onClose={toggleCartDialog} style={{ textAlign: 'center' }} sx={{ fontFamily: 'Playfair Display, serif', fontSize: '1.2rem' }}>
       <DialogTitle>Carrito de Compras</DialogTitle>
@@ -46,7 +112,7 @@ export default function Cart({ cart, openCart, toggleCartDialog, updateQuantity,
                     <button
                       onClick={() => removeFromCart(product._id)}
                       style={{
-                        background: '#f44336', // Rojo para eliminar
+                        background: '#f44336',
                         color: 'white',
                         border: 'none',
                         borderRadius: '5px',
@@ -67,8 +133,14 @@ export default function Cart({ cart, openCart, toggleCartDialog, updateQuantity,
         <Button onClick={toggleCartDialog} color="primary">
           Cerrar
         </Button>
+        <Button
+          style={{ backgroundColor: 'green', color: 'white' }}
+          onClick={handleCreatePreference}
+          disabled={loading}  // Deshabilitar el botón mientras se está cargando
+        >
+          {loading ? <CircularProgress size={24} color="inherit" /> : "Pagar"}
+        </Button>
       </DialogActions>
     </Dialog>
-
   );
 }
