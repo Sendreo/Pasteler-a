@@ -4,7 +4,7 @@ import authenticateToken from '../middelwares/autenticateToken.js';
 
 const router = Router();
 
-router.get('/get/products',authenticateToken, getProducts);
+router.get('/get/products', getProducts);
 router.post('/add/products',authenticateToken, addProduct);
 router.put('/update/product/:id',authenticateToken, updateProduct);
 router.delete('/delete/product/:id',authenticateToken, deleteProduct);
