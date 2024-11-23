@@ -7,6 +7,8 @@ import routeSales from './src/routes/route.sales.js';
 import routeReport from './src/routes/route.report.js';
 import routeProducts from './src/routes/route.products.js';
 import routeDashboard from './src/routes/route.dashboard.js';
+import mercadoPagoRoutes from './src/routes/createOrder.routes.js'
+import bodyParser from 'body-parser'
 import cors from 'cors';
 import morgan from 'morgan';
 import autentication from './src/routes/route.autentication.js';
@@ -29,6 +31,7 @@ const startServer = async ()=>{
       );
     app.use(json());
     app.use(morgan('dev'));
+    app.use(bodyParser.json());
 
     //Rutas
     app.use('/api', routeInventory);
@@ -39,7 +42,7 @@ const startServer = async ()=>{
     app.use('/api', routeProducts);
     app.use('/api', routeDashboard);
     app.use('/api', autentication)
-
+    app.use('/mercadopago', mercadoPagoRoutes)
     //Manejo de errores global
     app.use((err, req, res, next) => {
         console.error(err.stack);

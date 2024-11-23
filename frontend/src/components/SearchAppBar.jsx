@@ -1,16 +1,18 @@
 // src/components/SearchAppBar.jsx
 import * as React from 'react';
+import { useState } from 'react';
 import { styled, alpha } from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
-
 import InputBase from '@mui/material/InputBase';
 import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
-import '../styles/search.css'
-
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import Badge from '@mui/material/Badge';
+import Cart from './Cart'
+import '../styles/search.css';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -50,7 +52,14 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-export default function SearchAppBar({ searchTerm, setSearchTerm }) {
+export default function SearchAppBar({ searchTerm, setSearchTerm, cart, updateQuantity, removeFromCart }) {
+  const [openCart, setOpenCart] = useState(false); // Estado para abrir/cerrar el diálogo del carrito
+
+  // Función para abrir y cerrar el diálogo del carrito
+  const toggleCartDialog = () => {
+    setOpenCart(!openCart);
+  };
+  console.log(cart)
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
@@ -64,12 +73,10 @@ export default function SearchAppBar({ searchTerm, setSearchTerm }) {
           >
             <MenuIcon />
           </IconButton>
-          
+
           {/* Logo */}
           <img src="src/assets/logo-header.png" alt="Logo" style={{ width: '70px', height: '60px', marginRight: '5px' }} />
-          
-       
-          
+
           {/* Barra de búsqueda */}
           <Search>
             <SearchIconWrapper>
@@ -82,6 +89,30 @@ export default function SearchAppBar({ searchTerm, setSearchTerm }) {
               onChange={(e) => setSearchTerm(e.target.value)}
             />
           </Search>
+
+          {/* Carrito */}
+          <IconButton
+            size="large"
+            color="inherit"
+            aria-label="open cart"
+            sx={{ ml: 'auto' }} // Esto alinea el carrito al final del navbar
+            onClick={toggleCartDialog} // Abre el diálogo del carrito
+          >
+            <Badge
+              badgeContent={cart.length} // Muestra la cantidad de productos en el carrito
+              color="error" // El color rojo del badge
+            >
+              <ShoppingCartIcon />
+            </Badge>
+          </IconButton>
+
+          <Cart
+            cart={cart}
+            openCart={openCart}
+            toggleCartDialog={toggleCartDialog}
+            updateQuantity={updateQuantity}
+            removeFromCart={removeFromCart}
+          />
         </Toolbar>
       </AppBar>
     </Box>

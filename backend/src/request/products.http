@@ -3,13 +3,14 @@ POST http://localhost:3000/api/add/products
 Content-Type: application/json
 
 {
-  "name": "Torta de dulce de leche",
+  "name": "Torta Matilda",
   "category": "Torta",
   "stock": 10,
   "price": 9999.99,
-  "description": "Descripción de prueba",
-  "labels": ["dulce de leche", "alfajor"],
-  "image": "https://www.instagram.com/p/DB6-ClIJbGG/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA=="
+  "description": "descripcion",
+  "labels": ["amargo", "chocolate", "matilda", "torta", ],
+  "image": "",
+  "inverntory": "s"
 }
 
 ### Actualizar un producto (cambiar ID por uno real)
