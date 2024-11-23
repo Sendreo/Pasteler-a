@@ -8,7 +8,9 @@ import routeReport from './src/routes/route.report.js';
 import routeProducts from './src/routes/route.products.js';
 import routeDashboard from './src/routes/route.dashboard.js';
 import cors from 'cors';
-import morgan from 'morgan'
+import morgan from 'morgan';
+import autentication from './src/routes/route.autentication.js';
+import cookieParser from 'cookie-parser';
 
 const app = express()
 
@@ -17,7 +19,14 @@ const startServer = async ()=>{
     await connection();
 
     //Middelwares
-    app.use(cors());
+    
+    app.use(cookieParser());
+    app.use(
+        cors({
+          origin: 'http://localhost:5173', 
+          credentials: true, 
+        })
+      );
     app.use(json());
     app.use(morgan('dev'));
 
@@ -29,6 +38,7 @@ const startServer = async ()=>{
     app.use('/api', routeReport);
     app.use('/api', routeProducts);
     app.use('/api', routeDashboard);
+    app.use('/api', autentication)
 
     //Manejo de errores global
     app.use((err, req, res, next) => {
