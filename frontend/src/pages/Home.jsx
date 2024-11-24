@@ -13,6 +13,7 @@ const Home = () => {
   const [products, setProducts] = useState([]);
   const [cart, setCart] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
+  const [mostrar, setMostrar] = useState(false)
   const productsPerPage = 8;
 
   const galleryImages = [
@@ -64,103 +65,107 @@ const Home = () => {
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
-      <SearchAppBar
-        searchTerm={searchTerm}
-        setSearchTerm={setSearchTerm}
-        cart={cart}
-      />
-
- 
-      <Box
-        sx={{
-          textAlign: 'center',
-          marginTop: 4,
-          padding: 4,
-          backgroundColor: '#e1d8e6',
-          flex: 1,
-        }}
-      >
-     
-        <img
-          src={bakeryInfo.logo}
-          alt="Logo"
-          style={{
-            width: '15%',
-            height: 'auto',
-            marginBottom: '-90px', 
-          }}
+    <>
+      <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+        <SearchAppBar
+          searchTerm={searchTerm}
+          setSearchTerm={setSearchTerm}
+          cart={cart}
         />
+        {mostrar
+          ?
+          (
+            <Box sx={{ flex: 2, padding: 3 }}>
+              <Products products={currentProducts} addToCart={addToCart} />
 
-        <h1 style={{ fontSize: '3rem', marginBottom: '10px' }}>{bakeryInfo.name}</h1>
-        <p style={{ fontSize: '1.5rem', marginBottom: '20px' }}>{bakeryInfo.description}</p>
-
-        <Carousel
-  showArrows={false} 
-  infiniteLoop
-  autoPlay
-  interval={3000} 
-  stopOnHover
-  dynamicHeight
-  showThumbs={false} 
->
-  {galleryImages.map((image, index) => (
-    <div key={index}>
-      <img
-        src={image}
-        alt={`image-${index}`}
-        style={{
-          width: '28%', 
-          height: '400px', 
-          objectFit: 'cover',
-        }}
-      />
-    </div>
-  ))}
-</Carousel>
-
-
-        <Button
-          variant="contained"
-          sx={{
-            marginTop: 3,
-            padding: '12px 24px',
-            fontSize: '1.2rem',
-            backgroundColor: '#1976d2',
-            '&:hover': { backgroundColor: '#115293' },
-          }}
-          onClick={() => window.scrollTo(0, document.body.scrollHeight)} 
-        >
-          Ver Productos
-        </Button>
-      </Box>
-
-    
-      <Box sx={{ flex: 2, padding: 3, backgroundColor: '#fff' }}>
-        <Products products={currentProducts} addToCart={addToCart} />
-
-        <Box sx={{ display: 'flex', justifyContent: 'center', marginTop: 2, marginBottom: 3 }}>
-          {Array.from({ length: Math.max(Math.ceil(filteredData.length / productsPerPage), 1) }).map((_, index) => (
-            <Button
-              key={index}
-              onClick={() => paginate(index + 1)}
+              <Box sx={{ display: 'flex', justifyContent: 'center', marginTop: 2, marginBottom: 3 }}>
+                {Array.from({ length: Math.max(Math.ceil(filteredData.length / productsPerPage), 1) }).map((_, index) => (
+                  <Button
+                    key={index}
+                    onClick={() => paginate(index + 1)}
+                    sx={{
+                      margin: '0 5px',
+                      padding: '5px 10px',
+                      backgroundColor: currentPage === index + 1 ? '#1976d2' : '#e0e0e0',
+                      color: currentPage === index + 1 ? 'white' : 'black',
+                      '&:hover': { backgroundColor: currentPage === index + 1 ? '#115293' : '#d6d6d6' },
+                    }}
+                  >
+                    {index + 1}
+                  </Button>
+                ))}
+              </Box>
+            </Box>
+          )
+          :
+          (
+            <Box
               sx={{
-                margin: '0 5px',
-                padding: '5px 10px',
-                backgroundColor: currentPage === index + 1 ? '#1976d2' : '#e0e0e0',
-                color: currentPage === index + 1 ? 'white' : 'black',
-                '&:hover': { backgroundColor: currentPage === index + 1 ? '#115293' : '#d6d6d6' },
+                textAlign: 'center',
+                padding: 3,
+                backgroundColor: '#e1d8e6',
+                flex: 1,
               }}
             >
-              {index + 1}
-            </Button>
-          ))}
-        </Box>
-      </Box>
 
-      {/* Footer */}
-      <Footer />
-    </Box>
+              <img
+                src={bakeryInfo.logo}
+                alt="Logo"
+                style={{
+                  width: '15%',
+                  height: 'auto',
+                  marginBottom: '-70px',
+                }}
+              />
+
+              <p style={{ fontSize: '1.5rem', marginBottom: '20px', fontFamily: 'Roboto' }}>{bakeryInfo.description}</p>
+
+              <Carousel
+                showArrows={false}
+                infiniteLoop
+                autoPlay
+                interval={3000}
+                stopOnHover
+                dynamicHeight
+                showThumbs={false}
+              >
+                {galleryImages.map((image, index) => (
+                  <div key={index}>
+                    <img
+                      src={image}
+                      alt={`image-${index}`}
+                      style={{
+                        width: '28%',
+                        height: '300px',
+                        objectFit: 'cover',
+                        borderRadius: '100px'
+                      }}
+                    />
+                  </div>
+                ))}
+              </Carousel>
+              <Button
+                variant="contained"
+                sx={{
+                  marginTop: 3,
+                  padding: '12px 24px',
+                  fontSize: '1.2rem',
+                  backgroundColor: '#1976d2',
+                  '&:hover': { backgroundColor: '#115293' },
+                }}
+                onClick={() => setMostrar(true)}
+              >
+                Ver Productos
+              </Button>
+            </Box>
+
+          )
+        }
+
+        {/* Footer */}
+        <Footer />
+      </Box>
+    </>
   );
 };
 
