@@ -54,6 +54,18 @@ const Home = () => {
     }
   };
 
+  const updateQuantity = (productId, newQuantity) => {
+    setCart((prevCart) =>
+      prevCart.map((product) =>
+        product._id === productId ? { ...product, quantity: newQuantity } : product
+      )
+    );
+  };
+
+  const removeFromCart = (productId) => {
+    setCart((prevCart) => prevCart.filter((product) => product._id !== productId));
+  };
+
   const filteredData = products.filter((d) =>
     d.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
@@ -71,6 +83,8 @@ const Home = () => {
           searchTerm={searchTerm}
           setSearchTerm={setSearchTerm}
           cart={cart}
+          updateQuantity={updateQuantity}
+          removeFromCart={removeFromCart}
         />
         {mostrar
           ?
