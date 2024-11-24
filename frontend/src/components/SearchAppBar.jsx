@@ -1,4 +1,3 @@
-// src/components/SearchAppBar.jsx
 import * as React from 'react';
 import { useState } from 'react';
 import { styled, alpha } from '@mui/material/styles';
@@ -11,7 +10,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import Badge from '@mui/material/Badge';
-import Cart from './Cart'
+import Cart from './Cart';
 import '../styles/search.css';
 
 const Search = styled('div')(({ theme }) => ({
@@ -52,14 +51,44 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-export default function SearchAppBar({ searchTerm, setSearchTerm, cart, updateQuantity, removeFromCart }) {
+export default function SearchAppBar({
+  searchTerm,
+  setSearchTerm,
+  onSearch,
+  cart,
+  updateQuantity,
+  removeFromCart,
+}) {
   const [openCart, setOpenCart] = useState(false); // Estado para abrir/cerrar el diálogo del carrito
+  const [inputValue, setInputValue] = useState(''); // Estado local para el campo de búsqueda
 
   // Función para abrir y cerrar el diálogo del carrito
   const toggleCartDialog = () => {
     setOpenCart(!openCart);
   };
-  console.log(cart)
+
+  const handleSearch = (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault(); // Evitar comportamientos predeterminados del formulario
+
+      // Verificar si el campo está vacío
+      if (inputValue.trim() === '') {
+        console.log('Campo vacío, mostrando todos los productos');
+        setSearchTerm(''); // Limpia el término global de búsqueda
+        if (onSearch) {
+          onSearch(''); // Llama a la función para mostrar todos los productos
+        }
+        return;
+      }
+
+      console.log('Buscando productos para:', inputValue);
+      setSearchTerm(inputValue); // Actualiza el término global de búsqueda
+      if (onSearch) {
+        onSearch(inputValue); // Llama a la función pasada como prop para manejar la búsqueda
+      }
+    }
+  };
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
@@ -75,7 +104,11 @@ export default function SearchAppBar({ searchTerm, setSearchTerm, cart, updateQu
           </IconButton>
 
           {/* Logo */}
-          <img src="https://github.com/augustoterrera/Image-Proyect/blob/master/Logo/logo-header-enhanced.png?raw=true" alt="Logo" style={{ width: '60px', height: '50px', marginRight: '5px' }} />
+          <img
+            src="https://github.com/augustoterrera/Image-Proyect/blob/master/Logo/logo-header-enhanced.png?raw=true"
+            alt="Logo"
+            style={{ width: '60px', height: '50px', marginRight: '5px' }}
+          />
 
           {/* Barra de búsqueda */}
           <Search>
@@ -85,8 +118,9 @@ export default function SearchAppBar({ searchTerm, setSearchTerm, cart, updateQu
             <StyledInputBase
               placeholder="Buscar productos..."
               inputProps={{ 'aria-label': 'search' }}
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
+              value={inputValue}
+              onChange={(e) => setInputValue(e.target.value)}
+              onKeyDown={handleSearch} // Busca al presionar Enter
             />
           </Search>
 
